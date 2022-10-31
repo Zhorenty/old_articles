@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
 import 'weather_days.dart';
 
 void main() {
@@ -29,10 +28,12 @@ class _MainScreenState extends State<MainScreen> {
         SizedBox(height: 40),
         Place(),
         SizedBox(height: 40),
+        MainDegrees(),
         SizedBox(
-          height: 150,
-          child: WeatherList(),
-        )
+          height: 50,
+        ),
+        textDayWidget(),
+        SizedBox(height: 150, child: WeatherList()),
       ]),
     ));
   }
@@ -139,4 +140,104 @@ Widget WeatherList() {
               ),
             );
           })));
+}
+
+Widget MainDegrees() {
+  return Container(
+    margin: EdgeInsets.all(12),
+    child: Column(
+      children: [
+        Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Icon(
+              Icons.wb_sunny,
+              size: 80,
+              color: Colors.white,
+            ),
+            SizedBox(
+              width: 27,
+            ),
+            Column(
+              children: [
+                Text(
+                  '14°F',
+                  style: TextStyle(
+                      fontSize: 60,
+                      fontWeight: FontWeight.w200,
+                      color: Colors.white),
+                ),
+                Text(
+                  'LIGHT SNOW',
+                  style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 16,
+                      fontWeight: FontWeight.w300),
+                )
+              ],
+            )
+          ],
+        ),
+        SizedBox(height: 70),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          children: [
+            Column(
+              children: [
+                Icon(Icons.cloudy_snowing, color: Colors.white, size: 30),
+                SizedBox(height: 5),
+                Text(
+                  '5',
+                  style: TextStyle(color: Colors.white),
+                ),
+                Text(
+                  'km/hr',
+                  style: TextStyle(color: Colors.white),
+                )
+              ],
+            ),
+            Column(
+              children: [
+                Icon(Icons.cloudy_snowing, color: Colors.white, size: 30),
+                SizedBox(height: 5),
+                Text(
+                  '3',
+                  style: TextStyle(color: Colors.white),
+                ),
+                Text(
+                  '%',
+                  style: TextStyle(color: Colors.white),
+                )
+              ],
+            ),
+            Column(
+              children: [
+                Icon(Icons.cloudy_snowing, color: Colors.white, size: 30),
+                SizedBox(height: 5),
+                Text(
+                  '20',
+                  style: TextStyle(color: Colors.white),
+                ),
+                Text(
+                  '%',
+                  style: TextStyle(color: Colors.white),
+                )
+              ],
+            ),
+          ],
+        )
+      ],
+    ),
+  );
+}
+
+Widget textDayWidget() {
+  return Container(
+    child: Center(
+        child: Text(
+      '7-DAY WEATHER FORECAST',
+      style: TextStyle(
+          color: Colors.white, fontSize: 17, fontWeight: FontWeight.w300),
+    )),
+  );
 }
