@@ -1,4 +1,6 @@
 // ignore_for_file: avoid_print
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:yo_app/models/user.dart';
@@ -185,7 +187,7 @@ class _RegisterFormPageState extends State<RegisterFormPage> {
       onSaved: (value) => newUser.email = value!,
       validator: _validateEmail,
       controller: _emailController,
-      decoration: const InputDecoration(labelText: 'email adress*'),
+      decoration: const InputDecoration(labelText: 'email adress'),
     );
   }
 
@@ -193,7 +195,7 @@ class _RegisterFormPageState extends State<RegisterFormPage> {
     return DropdownButtonFormField(
       decoration: const InputDecoration(
           icon: Icon(Icons.map),
-          labelText: 'select country*',
+          labelText: 'select country',
           border: OutlineInputBorder(
               borderRadius: BorderRadius.all(Radius.circular(12)))),
       items: _countries.map((country) {
@@ -210,9 +212,9 @@ class _RegisterFormPageState extends State<RegisterFormPage> {
         });
       },
       value: _selectedCountry,
-      validator: ((value) {
-        return value == null ? 'Please select country' : null;
-      }),
+      // validator: ((value) {
+      //   return value == null ? null : null;
+      // }),
     );
   }
 
@@ -285,11 +287,11 @@ class _RegisterFormPageState extends State<RegisterFormPage> {
     if (_formKey.currentState!.validate()) {
       _formKey.currentState!.save();
       _showDialog(name: '${_nameController.text} succesful registered');
-      print('name: ${_nameController.text}');
-      print('phone: ${_phoneController.text}');
-      print('email: ${_emailController.text}');
-      print('lifeStory: ${_lifeStoryController.text}');
-      print('country: $_selectedCountry');
+      log('name: ${_nameController.text}');
+      log('phone: ${_phoneController.text}');
+      log('email: ${_emailController.text}');
+      log('lifeStory: ${_lifeStoryController.text}');
+      log('country: $_selectedCountry');
     } else {
       _showMessage(message: 'Form is not valid! Please recheck');
     }
@@ -314,7 +316,7 @@ class _RegisterFormPageState extends State<RegisterFormPage> {
   String? _validateEmail(String? value) {
     // final emailExp = RegExp(r'/^[^\s@]+@[^\s@]+\.[^\s@]+$/');
     if (value!.isEmpty) {
-      return 'обязательное поле';
+      return null;
       // } else if (!emailExp.hasMatch(value)) {
       //   return 'error';
     } else if (!_emailController.text.contains('@')) {
@@ -325,10 +327,10 @@ class _RegisterFormPageState extends State<RegisterFormPage> {
   }
 
   String? _validatePass(value) {
-    if (_passwordController.text.length < 8) {
+    if (value!.isEmpty) {
+      return null;
+    } else if (_passwordController.text.length < 8) {
       return 'длина пароля должна быть не меньше 8';
-    } else if (value == null) {
-      return "обязательное поле";
     } else if (_passwordController.text != _confirmPasswordController.text) {
       return 'пароли не совпадают';
     } else {

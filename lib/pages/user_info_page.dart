@@ -22,14 +22,14 @@ class UserInfo extends StatelessWidget {
                   style: const TextStyle(color: Colors.teal),
                 ),
                 subtitle: Text(
-                  user.story,
+                  user.story.isEmpty ? '' : user.story,
                   style: const TextStyle(color: Colors.black),
                 ),
                 leading: const Icon(
                   Icons.person,
                   color: Colors.black,
                 ),
-                trailing: Text(user.country),
+                trailing: user.country.isEmpty ? Text(user.country) : null,
               ),
               ListTile(
                 title: Text(
@@ -38,13 +38,15 @@ class UserInfo extends StatelessWidget {
                 ),
                 leading: const Icon(Icons.phone),
               ),
-              ListTile(
-                title: Text(
-                  user.email,
-                  style: const TextStyle(color: Colors.teal),
-                ),
-                leading: const Icon(Icons.mail),
-              ),
+              user.email.isNotEmpty
+                  ? ListTile(
+                      title: Text(
+                        user.email,
+                        style: const TextStyle(color: Colors.teal),
+                      ),
+                      leading: const Icon(Icons.mail),
+                    )
+                  : Container(),
             ],
           )),
     );
