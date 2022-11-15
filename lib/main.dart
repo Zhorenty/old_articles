@@ -1,24 +1,36 @@
 import 'package:flutter/material.dart';
 import 'pages/register_form_page.dart';
+import 'pages/user_info_page.dart';
+import 'models/user.dart';
 
 void main() {
-  runApp(const NavigatorApp());
+  runApp(const MyApp());
 }
 
-class NavigatorApp extends StatefulWidget {
-  const NavigatorApp({super.key});
+class MyApp extends StatelessWidget {
+  const MyApp({Key? key}) : super(key: key);
 
-  @override
-  State<NavigatorApp> createState() => _NavigatorState();
-}
-
-class _NavigatorState extends State<NavigatorApp> {
+  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      title: 'Flutter Demo',
+      theme: ThemeData(
+        primarySwatch: Colors.blue,
+      ),
       initialRoute: '/',
-      routes: {
-        '/': (context) => const RegisterFormPage(),
+      onGenerateRoute: (settings) {
+        switch (settings.name) {
+          case '/':
+            return MaterialPageRoute(
+                builder: (context) => const RegisterFormPage());
+
+          case '/user':
+            final user = settings.arguments as User;
+            return MaterialPageRoute(
+                builder: (context) => UserInfo(user: user));
+        }
+        return null;
       },
     );
   }
