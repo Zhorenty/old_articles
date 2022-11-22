@@ -3,7 +3,7 @@ import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:yo_app/models/user.dart';
+import 'package:yo_app/archive/models/user.dart';
 
 class RegisterFormPage extends StatefulWidget {
   const RegisterFormPage({super.key});
@@ -97,29 +97,6 @@ class _RegisterFormPageState extends State<RegisterFormPage> {
     );
   }
 
-  // Widget icon1() {
-  //   return Icon(Icons.delete);
-  // }
-
-  // Widget icon2() {
-  //   return Icon(Icons.delete_forever);
-  // }
-
-  // Widget changeIcon() {
-  //   _nameController.dispose;
-  //   return IconButton(
-  //       onPressed: () {},
-  //       icon: GestureDetector(
-  //         child: icon1(),
-  //         onTap: () {
-  //           setState(() {
-  //             _nameController.text.isEmpty ? icon2() : icon1();
-  //           });
-  //           _nameController.clear();
-  //         },
-  //       ));
-  // }
-
   Widget fullName() {
     return TextFormField(
       focusNode: _nameFocus,
@@ -130,17 +107,21 @@ class _RegisterFormPageState extends State<RegisterFormPage> {
       onSaved: (value) => newUser.name = value!,
       validator: _validateName,
       controller: _nameController,
+      onChanged: (value) {
+        setState(() {});
+      },
       decoration: InputDecoration(
-        suffixIcon: GestureDetector(
-          child: const Icon(Icons.delete_outline),
-          onTap: () {
-            _nameController.clear();
-          },
-        ),
+        suffixIcon: _nameController.text.isEmpty
+            ? null
+            : IconButton(
+                icon: Icon(Icons.delete_outline),
+                onPressed: () {
+                  _nameController.clear();
+                  setState(() {});
+                }),
         hintText: 'введите свое имя',
         labelText: ' full name',
         prefixIcon: const Icon(Icons.apple),
-        suffix: const Icon(Icons.delete, color: Colors.red, size: 2),
         enabledBorder: const OutlineInputBorder(
           borderRadius: BorderRadius.all(Radius.circular(12)),
           borderSide: BorderSide(color: Colors.teal, width: 4),
@@ -157,6 +138,7 @@ class _RegisterFormPageState extends State<RegisterFormPage> {
 
   Widget phoneNumber() {
     return TextFormField(
+      onChanged: (value) => setState(() {}),
       onSaved: (value) => newUser.phone = value!,
       focusNode: _phoneFocus,
       onFieldSubmitted: (_) {
@@ -172,12 +154,14 @@ class _RegisterFormPageState extends State<RegisterFormPage> {
       keyboardType: TextInputType.phone,
       decoration: InputDecoration(
         labelText: 'phone number*',
-        suffixIcon: GestureDetector(
-          child: const Icon(Icons.delete_outline),
-          onTap: () {
-            _nameController.clear();
-          },
-        ),
+        suffixIcon: _phoneController.text.isEmpty
+            ? null
+            : IconButton(
+                icon: Icon(Icons.delete_outline),
+                onPressed: () {
+                  _nameController.clear();
+                },
+              ),
       ),
     );
   }
@@ -239,37 +223,43 @@ class _RegisterFormPageState extends State<RegisterFormPage> {
       validator: _validatePass,
       controller: _passwordController,
       maxLength: 12,
+      onChanged: (value) => setState(() {}),
       decoration: InputDecoration(
           labelText: 'password*',
-          suffixIcon: IconButton(
-              onPressed: () {
-                setState(() {
-                  _hidePass1 = !_hidePass1;
-                });
-              },
-              icon: _hidePass1
-                  ? const Icon(Icons.visibility_off)
-                  : const Icon(Icons.visibility))),
+          suffixIcon: _passwordController.text.isEmpty
+              ? null
+              : IconButton(
+                  onPressed: () {
+                    setState(() {
+                      _hidePass1 = !_hidePass1;
+                    });
+                  },
+                  icon: _hidePass1
+                      ? const Icon(Icons.visibility_off)
+                      : const Icon(Icons.visibility))),
       obscureText: _hidePass1,
     );
   }
 
   Widget confirmPassword() {
     return TextFormField(
+      onChanged: (value) => setState(() {}),
       focusNode: _confirmPassFocus,
       controller: _confirmPasswordController,
       maxLength: 12,
       decoration: InputDecoration(
           labelText: 'confirm password',
-          suffixIcon: IconButton(
-              onPressed: () {
-                setState(() {
-                  _hidePass2 = !_hidePass2;
-                });
-              },
-              icon: _hidePass2
-                  ? const Icon(Icons.visibility_off)
-                  : const Icon(Icons.visibility))),
+          suffixIcon: _confirmPasswordController.text.isEmpty
+              ? null
+              : IconButton(
+                  onPressed: () {
+                    setState(() {
+                      _hidePass2 = !_hidePass2;
+                    });
+                  },
+                  icon: _hidePass2
+                      ? const Icon(Icons.visibility_off)
+                      : const Icon(Icons.visibility))),
       obscureText: _hidePass2,
       validator: _validatePass,
     );
