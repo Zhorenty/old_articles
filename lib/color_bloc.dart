@@ -1,36 +1,15 @@
-import 'dart:async';
-
+import 'package:bloc/bloc.dart';
 import 'package:flutter/material.dart';
 
-enum ColorEvent { eventRed, eventGreen }
+abstract class ColorEvent {}
 
-class ColorBloc {
-  Color _color = Colors.red;
+class RedColorEvent extends ColorEvent {}
 
-  final _inputEventController = StreamController<ColorEvent>();
-  StreamSink<ColorEvent> get inputEventSink => _inputEventController.sink;
+class GreenColorEvent extends ColorEvent {}
 
-  final _outputStateController = StreamController<Color>();
-  Stream<Color> get outputStateStream => _outputStateController.stream;
-
-  void _mapEventToState(ColorEvent event) {
-    if (event == ColorEvent.eventRed) {
-      _color = Colors.red;
-    } else if (event == ColorEvent.eventGreen) {
-      _color = Colors.green;
-    } else {
-      throw {Exception('wrong event type')};
-    }
-
-    _outputStateController.sink.add(_color);
-  }
-
-  ColorBloc() {
-    _inputEventController.stream.listen(_mapEventToState);
-  }
-
-  void dispose() {
-    _inputEventController.close();
-    _outputStateController.close();
+class ColorBloc extends Bloc<ColorEvent, Color> {
+  ColorBloc() : super(Colors.red) {
+    on<RedColorEvent>((event, emit) => emit(Colors.red));
+    on<GreenColorEvent>((event, emit) => emit(Colors.green));
   }
 }
